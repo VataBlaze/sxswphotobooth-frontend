@@ -1,8 +1,7 @@
 <template>
   <div class="row q-gutter-md action-buttons">
-    <div v-for="(trigger, index) in triggers" :key="index">
+    <div v-for="(trigger, index) in visibleTriggers" :key="index">
       <q-btn
-        v-if="trigger.show_button && !(isEmpty(trigger.title) && isEmpty(trigger.icon))"
         stack
         :color="trigger.use_custom_color ? 'custom' : 'primary'"
         no-caps
@@ -21,8 +20,9 @@
 
 <script setup lang="ts">
 import { isEmpty } from 'lodash'
+import { computed } from 'vue'
 
-defineProps<{
+const props = defineProps<{
   triggers: TriggerSchema[]
 }>()
 
@@ -35,6 +35,8 @@ export interface TriggerSchema {
   use_custom_color: boolean
   custom_color: string
 }
+
+const visibleTriggers = computed(() => props.triggers.filter((t) => t.show_button && !(isEmpty(t.title) && isEmpty(t.icon))))
 
 const emit = defineEmits<{
   triggerAction: [action: string, config_index: number]
