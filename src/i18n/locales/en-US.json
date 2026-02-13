@@ -150,7 +150,8 @@
       "process_started": "{action_name} started.",
       "process_failed": "😔 Error while processing the action. Please try again.",
       "quota_notification": "{action_name} quota is {current_shares} of {quota}",
-      "wrong_media_type": "{action_name} supports only images."
+      "wrong_media_type": "{action_name} supports only images.",
+      "printer_not_ready": "{printer_name} is not ready to print. Check power, connectivity, paper and cartridges."
     }
   },
   "The form is cleared when you switch the tab. Do you want to continue?": "The form is cleared when you switch the tab. Do you want to continue?",
