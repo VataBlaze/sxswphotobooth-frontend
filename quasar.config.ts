@@ -52,7 +52,7 @@ export default defineConfig((ctx) => {
       // minify: false,
       // polyfillModulePreload: true,
       // distDir
-      distDir: '../photobooth-app/src/web/frontend/',
+      distDir: '../sxswphotobooth2/src/web/frontend/',
 
       // extendViteConf (viteConf) {},
       // viteVuePluginOptions: {},
