@@ -9,7 +9,11 @@
     <div class="breathing-circle-container">
       <div
         class="breathing-circle"
-        :class="{ 'breathing-inhale': breathPhase === 'inhale', 'breathing-exhale': breathPhase === 'exhale', 'breathing-hold': breathPhase === 'hold' }"
+        :class="{
+          'breathing-inhale': breathPhase === 'inhale',
+          'breathing-exhale': breathPhase === 'exhale',
+          'breathing-hold': breathPhase === 'hold',
+        }"
       >
         <div class="breathing-circle-inner">
           <div class="breathing-instruction">
@@ -30,14 +34,7 @@
     </div>
 
     <!-- Skip button (small, subtle) -->
-    <q-btn
-      flat
-      no-caps
-      color="white"
-      class="breathing-skip-btn"
-      label="Skip →"
-      @click="finish()"
-    />
+    <q-btn flat no-caps color="white" class="breathing-skip-btn" label="Skip →" @click="finish()" />
   </div>
 </template>
 
@@ -68,8 +65,6 @@ const breathInstruction = ref('Breathe in...')
 const phaseLabel = ref('Close your eyes and relax')
 let mainTimerId: number
 let breathCycleTimerId: number
-
-const cycleLength = computed(() => props.inhaleSeconds + props.holdSeconds + props.exhaleSeconds)
 
 const formattedTimeRemaining = computed(() => {
   const mins = Math.floor(timeRemaining.value / 60)
@@ -181,7 +176,9 @@ onBeforeUnmount(() => {
     0 0 60px rgba(1, 205, 254, 0.3),
     0 0 120px rgba(185, 103, 255, 0.15),
     inset 0 0 60px rgba(1, 205, 254, 0.1);
-  transition: transform ease-in-out, box-shadow ease-in-out;
+  transition:
+    transform ease-in-out,
+    box-shadow ease-in-out;
 }
 
 .breathing-circle.breathing-inhale {
@@ -203,7 +200,7 @@ onBeforeUnmount(() => {
 }
 
 .breathing-circle.breathing-exhale {
-  transform: scale(1.0);
+  transform: scale(1);
   transition-duration: 6s;
   box-shadow:
     0 0 40px rgba(185, 103, 255, 0.2),
@@ -240,7 +237,7 @@ onBeforeUnmount(() => {
 
 .breathing-progress-bar {
   height: 100%;
-  background: linear-gradient(90deg, #FF71CE, #01CDFE, #B967FF);
+  background: linear-gradient(90deg, #ff71ce, #01cdfe, #b967ff);
   transition: width 1s linear;
   border-radius: 2px;
 }
