@@ -34,9 +34,18 @@
     <!-- eslint-disable-next-line vue/no-v-html -->
     <div v-if="stateStore.isStateIdle" id="frontpage_text" v-html="configurationStore.configuration.uisettings.FRONTPAGE_TEXT"></div>
 
-    <!-- dialog for approval -->
+    <!-- BREATHE: Show breathing session after first capture, normal approval otherwise -->
     <div v-if="stateStore.isStateApproval">
+      <BreathingSession
+        v-if="showBreathingSession"
+        :duration-seconds="180"
+        :inhale-seconds="4"
+        :hold-seconds="4"
+        :exhale-seconds="6"
+        @session-complete="onBreathingComplete"
+      />
       <MediaItemApprovalViewer
+        v-else
         :approval_id="stateStore.jobmodel.approval_id"
         :number_captures_taken="stateStore.jobmodel.number_captures_taken"
         :total_captures_to_take="stateStore.jobmodel.total_captures_to_take"
@@ -103,6 +112,7 @@
 </template>
 
 <script setup lang="ts">
+import BreathingSession from '../components/BreathingSession.vue'
 import { useRouter } from 'vue-router'
 import { watchDebounced, refThrottled } from '@vueuse/core'
 import { computed, ref } from 'vue'
@@ -199,6 +209,21 @@ const invokeAction = (action: string, config_index: number) => {
 }
 const stopRecordingVideo = () => {
   remoteProcedureCall('/api/processing/next')
+}
+
+// BREATHE: Show breathing session when in approval state after the first capture of a collage
+const showBreathingSession = computed(() => {
+  return (
+    stateStore.isStateApproval &&
+    stateStore.jobmodel.typ === 'collage' &&
+    stateStore.jobmodel.number_captures_taken === 1 &&
+    stateStore.jobmodel.total_captures_to_take === 2
+  )
+})
+
+// BREATHE: Auto-confirm when breathing session ends, triggering capture 2
+const onBreathingComplete = () => {
+  remoteProcedureCall('/api/processing/confirm')
 }
 </script>
 
